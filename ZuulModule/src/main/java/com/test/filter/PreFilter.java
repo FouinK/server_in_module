@@ -1,20 +1,19 @@
 package com.test.filter;
 
 import com.netflix.zuul.ZuulFilter;
+import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
-import com.test.filter.handler.TestHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-@Component
-@RequiredArgsConstructor
-public class TestFilter extends ZuulFilter {
+import javax.servlet.http.HttpServletRequest;
 
-    private final TestHandler testHandler;
+@Component
+public class PreFilter extends ZuulFilter {
 
     @Override
     public String filterType() {
-        return "route";
+        return "pre";
     }
 
     @Override
@@ -31,8 +30,11 @@ public class TestFilter extends ZuulFilter {
     public Object run() throws ZuulException {
         try {
 
-            System.out.println("run 실행");
-            testHandler.requestTest();
+            System.out.println("[PreFilter 실행]");
+            RequestContext requestContext = RequestContext.getCurrentContext();
+            HttpServletRequest request = requestContext.getRequest();
+
+            requestContext.addZuulRequestHeader("Zuul","hi, spring ! ! !");
 
         } catch (RuntimeException e) {
 
