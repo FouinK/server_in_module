@@ -12,8 +12,10 @@ buildscript {
 }
 
 
+
 // 하위 모든 프로젝트 공통 세팅
 subprojects {
+
 	apply plugin: 'java'
 	apply plugin: 'idea'
 	apply plugin: 'org.springframework.boot'
@@ -23,7 +25,6 @@ subprojects {
 	version '1.0-SNAPSHOT'
 
 	sourceCompatibility = '11'
-	targetCompatibility = '11'
 	compileJava.options.encoding = 'UTF-8'
 
 	repositories {
@@ -53,8 +54,6 @@ dependencies {
 
 
 project(':HttpTestModule') {
-	bootJar { enabled = true }
-	jar { enabled = false }
 
 	dependencies {
 		implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -66,8 +65,6 @@ project(':HttpTestModule') {
 }
 
 project(':ZuulModule') {
-	bootJar { enabled = true }
-	jar { enabled = false }
 
 	dependencies {
 		implementation 'org.springframework.cloud:spring-cloud-starter-netflix-zuul:2.2.9.RELEASE'
@@ -75,3 +72,9 @@ project(':ZuulModule') {
 	}
 }
 
+project(":EurekaModule") {
+
+	dependencies {
+
+	}
+}

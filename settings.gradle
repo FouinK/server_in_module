@@ -1,3 +1,4 @@
 rootProject.name = 'netflix'
 include 'HttpTestModule'
 include 'ZuulModule'
+include 'EurekaModule'
