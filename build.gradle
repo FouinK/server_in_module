@@ -1,16 +1,16 @@
 buildscript {
 	ext {
-		springBootVersion = '2.3.8.RELEASE'
+		set('springCloudVersion', "Hoxton.RELEASE")
+		set('springBootVersion', '2.3.8.RELEASE')
 	}
 	repositories {
 		mavenCentral()
 	}
 	dependencies {
 		classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
-		classpath "io.spring.gradle:dependency-management-plugin:1.0.11.RELEASE"
+		classpath "io.spring.gradle:dependency-management-plugin:1.0.9.RELEASE"
 	}
 }
-
 
 
 // 하위 모든 프로젝트 공통 세팅
@@ -35,6 +35,12 @@ subprojects {
 	dependencies {
 		compileOnly 'org.projectlombok:lombok'
 
+		//jdk 11 추가
+		implementation 'javax.xml.bind:jaxb-api:2.3.1'
+		implementation 'com.sun.xml.bind:jaxb-impl:2.3.5'
+
+		implementation 'org.springframework.boot:spring-boot-starter-web'
+		implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
 		annotationProcessor 'org.projectlombok:lombok'
 		annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
@@ -46,6 +52,13 @@ subprojects {
 	test {
 		useJUnitPlatform()
 	}
+
+	dependencyManagement {
+		imports {
+			mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+		}
+	}
+
 }
 
 dependencies {
@@ -56,7 +69,6 @@ dependencies {
 project(':HttpTestModule') {
 
 	dependencies {
-		implementation 'org.springframework.boot:spring-boot-starter-web'
 		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 		implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
 		implementation 'mysql:mysql-connector-java'
@@ -75,6 +87,6 @@ project(':ZuulModule') {
 project(":EurekaModule") {
 
 	dependencies {
-
+		implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
 	}
 }
